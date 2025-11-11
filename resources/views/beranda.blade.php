@@ -7,38 +7,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Hero Section -->
-
-<section id="hero" class="max-w-7xl w-full h-[33rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-center justify-center px-6 md:px-16 mx-auto">
+<section id="hero" class="max-w-7xl w-full min-h-[33rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-center justify-between px-4 md:px-16 py-10 mx-auto bg-white overflow-hidden">
     <!-- Kiri: Teks & CTA -->
-    <div class="md:w-full flex flex-col justify-center items-start space-y-6">
-
-        <div class="md:w-10/12 flex flex-col justify-center items-start space-y-6 overflow-hidden px-4 md:px-0">
-            <h1 id="hero-title" class="text-3xl md:text-4xl font-bold transform opacity-0 transition-all duration-700" style="font-family: 'Space Grotesk', sans-serif;">
+    <div class="w-full md:w-1/2 flex flex-col justify-center items-start space-y-6 text-center md:text-left">
+        <!-- Judul & Deskripsi -->
+        <div class="w-full flex flex-col justify-center items-center md:items-start space-y-4">
+            <h1 id="hero-title" class="text-2xl sm:text-3xl md:text-4xl font-bold leading-snug opacity-0 transform transition-all duration-700"
+                style="font-family: 'Space Grotesk', sans-serif;">
                 {{ $slides[0]->title ?? 'Judul Hero' }}
             </h1>
-            <p id="hero-desc" class="w-full md:w-11/12 text-lg md:text-xl text-gray-700 transform opacity-0 transition-all duration-700 delay-150" style="font-family: 'Poppins', sans-serif;">
+            <p id="hero-desc" class="w-full md:w-11/12 text-base sm:text-lg md:text-xl text-gray-700 opacity-0 transform transition-all duration-700 delay-150"
+                style="font-family: 'Poppins', sans-serif;">
                 {{ $slides[0]->description ?? 'Deskripsi singkat hero di sini.' }}
             </p>
         </div>
 
-        <div class="flex space-x-4">
-            <a href="https://wa.me/6281220209566" target="_blank" class="bg-white text-black border border-green-600 px-6 py-3 rounded-[5px] font-semibold flex items-center space-x-2 hover:bg-green-600 transition">
+        <!-- Tombol CTA -->
+        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4 w-full">
+            <a href="https://wa.me/6281220209566" target="_blank"
+                class="cta-left bg-white text-black border border-green-600 px-6 py-3 rounded-[5px] font-semibold flex items-center space-x-2 hover:bg-green-600 hover:text-white transition opacity-0">
                 <img src="{{ asset('asset/images/whatsapp.png') }}" alt="WhatsApp" class="h-6 w-6">
                 <span>Konsultasi Gratis</span>
             </a>
-            <a href="#portfolio" class="bg-white text-black border border-blue-600 px-6 py-3 rounded-[5px] font-semibold hover:bg-blue-500 transition">
+            <a href="#portfolio"
+                class="cta-right bg-white text-black border border-blue-600 px-6 py-3 rounded-[5px] font-semibold hover:bg-blue-500 hover:text-white transition opacity-0">
                 Lihat Portfolio
             </a>
         </div>
     </div>
 
     <!-- Kanan: Gambar / Carousel -->
-    <div class="md:w-1/2 mt-8 md:mt-0">
-        <div class="swiper h-80 md:h-full rounded overflow-hidden">
+    <div class="w-full md:w-1/2 mt-8 md:mt-0">
+        <div class="swiper h-64 sm:h-80 md:h-full rounded overflow-hidden">
             <div class="swiper-wrapper">
                 @foreach($slides as $slide)
                     <div class="swiper-slide h-full flex items-center justify-center">
-                        <img src="{{ asset('storage/' . $slide->image) }}" alt="{{ $slide->title }}" class="object-cover h-full w-full rounded">
+                        <img src="{{ asset('storage/' . $slide->image) }}" alt="{{ $slide->title }}"
+                            class="object-cover h-full w-full rounded">
                     </div>
                 @endforeach
             </div>
@@ -51,8 +56,65 @@
             <div class="swiper-pagination"></div>
         </div>
     </div>
-
 </section>
+
+<!-- CSS Animations -->
+<style>
+@keyframes fadeInLeft {
+    0% { opacity: 0; transform: translateX(-50px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+    0% { opacity: 0; transform: translateX(50px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeInLeft { animation: fadeInLeft 0.8s ease-out forwards; }
+.animate-fadeInRight { animation: fadeInRight 0.8s ease-out forwards; }
+.animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+</style>
+
+<!-- Intersection Observer Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const options = { threshold: 0.3 };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                if (el.id === "hero-title") {
+                    el.classList.add("animate-fadeInUp");
+                } else if (el.id === "hero-desc") {
+                    el.classList.add("animate-fadeInUp");
+                } else if (el.classList.contains("cta-left")) {
+                    el.classList.add("animate-fadeInLeft");
+                } else if (el.classList.contains("cta-right")) {
+                    el.classList.add("animate-fadeInRight");
+                }
+                el.style.opacity = "1";
+                observer.unobserve(el); // hanya animasi sekali
+            }
+        });
+    }, options);
+
+    // targetkan elemen-elemen
+    const targets = [
+        document.getElementById("hero-title"),
+        document.getElementById("hero-desc"),
+        document.querySelector(".cta-left"),
+        document.querySelector(".cta-right")
+    ];
+
+    targets.forEach(t => observer.observe(t));
+});
+</script>
+
+
 
 <!-- Section Tentang -->
 <section id="tentang" class="max-w-7xl w-full min-h-[28rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 bg-white overflow-hidden">
@@ -60,171 +122,220 @@
         
         <!-- Kolom Kiri: Sejarah, Visi, Misi -->
         <div class="lg:w-2/3 space-y-6">
-            <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3">Tentang Kami</h2>
-            
-            <div>
-                <h3 class="text-xl font-semibold text-green-700">Visi</h3>
-                <p class="text-gray-600 mt-2 leading-relaxed">
-                    {{ $about->visi ?? 'Belum ada data visi.' }}
-                </p>
-            </div>
+            <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 opacity-0 tentang-judul">
+                Tentang Kami
+            </h2>
 
-            <div>
-                <h3 class="text-xl font-semibold text-green-700">Misi</h3>
-                @if(!empty($about->misi))
-                    <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
-                        @foreach(explode("\n", $about->misi) as $misi)
-                            @if(trim($misi) !== '')
-                                <li>{{ $misi }}</li>
-                            @endif
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="text-gray-600 mt-2 leading-relaxed">Belum ada data misi.</p>
-                @endif
-            </div>
+            <!-- Bagian Visi & Misi -->
+            <div class="space-y-8">
+                <!-- Visi -->
+                <div class="opacity-0 tentang-visi">
+                    <h3 class="text-xl font-semibold text-green-700">Visi</h3>
+                    <p class="text-gray-600 mt-2 leading-relaxed">
+                        {{ $about->visi ?? 'Belum ada data visi.' }}
+                    </p>
+                </div>
 
+                <!-- Misi -->
+                <div class="opacity-0 tentang-misi">
+                    <h3 class="text-xl font-semibold text-green-700">Misi</h3>
+                    @if(!empty($about->misi))
+                        <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                            @foreach(explode("\n", $about->misi) as $misi)
+                                @if(trim($misi) !== '')
+                                    <li>{{ $misi }}</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-gray-600 mt-2 leading-relaxed">Belum ada data misi.</p>
+                    @endif
+                </div>
+            </div>
         </div>
 
         <!-- Kolom Kanan: Logo -->
         <div class="lg:w-1/3 flex flex-col items-center space-y-4">
-            <img src="{{ asset('asset/images/BC.png') }}" alt="Logo SINERGANTARA" class="w-64 lg:w-72 object-contain">
+            <!-- Logo -->
+            <img src="{{ asset('asset/images/BC.png') }}" alt="Logo SINERGANTARA"
+                class="w-64 lg:w-72 object-contain opacity-0 tentang-logo">
 
+            <!-- Tombol -->
             <a href="#"
-            class="bg-green-600 text-white px-6 py-2 rounded-[5px] font-semibold hover:bg-green-700 transition flex items-center gap-2">
+                class="bg-green-600 text-white px-6 py-2 rounded-[5px] font-semibold hover:bg-green-700 transition flex items-center gap-2 opacity-0 tentang-btn">
                 <span>Lihat Selengkapnya</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </a>
-
         </div>
-
     </div>
 </section>
+
+<!-- Animations -->
+<style>
+@keyframes fadeInLeft {
+    0% { opacity: 0; transform: translateX(-40px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+    0% { opacity: 0; transform: translateX(40px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeInLeft { animation: fadeInLeft 0.8s ease-out forwards; }
+.animate-fadeInRight { animation: fadeInRight 0.8s ease-out forwards; }
+.animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+.animate-fadeInDown { animation: fadeInDown 0.8s ease-out forwards; }
+</style>
+
+<!-- Intersection Observer Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const options = { threshold: 0.3 };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                if (el.classList.contains("tentang-judul")) {
+                    el.classList.add("animate-fadeInDown");
+                } else if (el.classList.contains("tentang-visi")) {
+                    el.classList.add("animate-fadeInLeft");
+                } else if (el.classList.contains("tentang-misi")) {
+                    el.classList.add("animate-fadeInRight");
+                } else if (el.classList.contains("tentang-logo")) {
+                    el.classList.add("animate-fadeInUp");
+                } else if (el.classList.contains("tentang-btn")) {
+                    el.classList.add("animate-fadeInDown");
+                }
+                el.style.opacity = "1";
+                observer.unobserve(el); // hanya animasi sekali
+            }
+        });
+    }, options);
+
+    // targetkan semua elemen untuk di-observe
+    const targets = document.querySelectorAll(".tentang-judul, .tentang-visi, .tentang-misi, .tentang-logo, .tentang-btn");
+    targets.forEach(t => observer.observe(t));
+});
+</script>
+
 
 <!-- Section Layanan -->
-<section id="layanan" class="max-w-7xl w-full min-h-[22rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 bg-white overflow-hidden">
+<section id="layanan" 
+    class="max-w-7xl w-full min-h-[22rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 bg-white overflow-hidden">
     <div class="w-full mx-auto px-6">
-        <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-8">Layanan Kami</h2>
+        <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-8">
+            Layanan Kami
+        </h2>
 
+        <!-- Animasi -->
+        <style>
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-fadeInUp.visible {
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        </style>
+
+        <!-- Grid Card -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-            <!-- Card 1 -->
-            <div class="bg-white shadow-md border border-blue-600 rounded-xl p-6 text-center hover:shadow-lg transition">
+            @php
+                $layanan = [
+                    ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m0-4h.01M12 20h9M3 20h9m-9 0a9 9 0 1118 0" />', 'title' => 'Konsultasi'],
+                    ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" /><circle cx="12" cy="9" r="2.5" />', 'title' => 'Survey Lokasi'],
+                    ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M8 9a3 3 0 100-6 3 3 0 000 6zm8 0a3 3 0 100-6 3 3 0 000 6zM2 20v-1a4 4 0 014-4h4a4 4 0 014 4v1m4 0v-1a4 4 0 00-4-4h-1.172a4 4 0 01-2.828-1.172l-.586-.586A1 1 0 019 12h6a1 1 0 01.707.293l.586.586A4 4 0 0119.172 15H20a4 4 0 014 4v1" />', 'title' => 'Negosiasi'],
+                    ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3a1 1 0 011 1v1.08a7.97 7.97 0 012.5 0V4a1 1 0 112 0v1.08a8.001 8.001 0 012.17.9l.77-.77a1 1 0 011.42 1.42l-.77.77a8.001 8.001 0 01.9 2.17H20a1 1 0 110 2h-1.08a7.97 7.97 0 010 2.5H20a1 1 0 110 2h-1.08a8.001 8.001 0 01-.9 2.17l.77.77a1 1 0 11-1.42 1.42l-.77-.77a8.001 8.001 0 01-2.17.9V20a1 1 0 11-2 0v-1.08a7.97 7.97 0 01-2.5 0V20a1 1 0 11-2 0v-1.08a8.001 8.001 0 01-2.17-.9l-.77.77a1 1 0 11-1.42-1.42l.77-.77a8.001 8.001 0 01-.9-2.17H4a1 1 0 110-2h1.08a7.97 7.97 0 010-2.5H4a1 1 0 110-2h1.08a8.001 8.001 0 01.9-2.17l-.77-.77a1 1 0 111.42-1.42l.77.77a8.001 8.001 0 012.17-.9V4a1 1 0 011-1zm2.25 6a3 3 0 100 6 3 3 0 000-6z" />', 'title' => 'Pengerjaan'],
+                    ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487a9.354 9.354 0 0 1 2.65 1.607 9.373 9.373 0 0 1 1.607 2.65 9.389 9.389 0 0 1-10.607 12.87 9.373 9.373 0 0 1-2.65-1.607 9.354 9.354 0 0 1-1.607-2.65 9.389 9.389 0 0 1 10.607-12.87zM12 8.25v7.5m3.75-3.75h-7.5"/>', 'title' => 'Pemasangan'],
+                ];
+            @endphp
+
+            @foreach($layanan as $index => $item)
+            <div class="bg-white shadow-md border border-blue-600 rounded-xl p-6 text-center hover:shadow-lg transition animate-fadeInUp"
+                style="animation-delay: {{ 0.1 * ($index + 1) }}s;">
                 <div class="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        class="h-12 w-12 text-green-600" fill="none" 
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" 
-                            d="M13 16h-1v-4h-1m0-4h.01M12 20h9M3 20h9m-9 0a9 9 0 1118 0" />
+                        {!! $item['icon'] !!}
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800">Konsultasi</h3>
+                <h3 class="text-lg font-semibold text-gray-800">{{ $item['title'] }}</h3>
             </div>
-
-            <!-- Card 2 -->
-            <div class="bg-white shadow-md border border-blue-600 rounded-xl p-6 text-center hover:shadow-lg transition">
-                <div class="flex justify-center mb-4">
-                    <!-- Ikon Lokasi / Maps -->
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        class="h-12 w-12 text-green-600" 
-                        fill="none" viewBox="0 0 24 24" 
-                        stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" 
-                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-                        <circle cx="12" cy="9" r="2.5" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-800">Survey Lokasi</h3>
-            </div>
-
-
-            <!-- Card 3 -->
-            <div class="bg-white shadow-md border border-blue-600 rounded-xl p-6 text-center hover:shadow-lg transition">
-                <div class="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        class="h-12 w-12 text-green-600" fill="none" 
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M8 9a3 3 0 100-6 3 3 0 000 6zm8 0a3 3 0 100-6 3 3 0 000 6zM2 20v-1a4 4 0 014-4h4a4 4 0 014 4v1m4 0v-1a4 4 0 00-4-4h-1.172a4 4 0 01-2.828-1.172l-.586-.586A1 1 0 019 12h6a1 1 0 01.707.293l.586.586A4 4 0 0119.172 15H20a4 4 0 014 4v1" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-800">Negosiasi</h3>
-            </div>
-
-
-            <!-- Card 4 -->
-            <div class="bg-white shadow-md border border-blue-600 rounded-xl p-6 text-center hover:shadow-lg transition">
-                <div class="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        class="h-12 w-12 text-green-600" fill="none" 
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" 
-                            d="M9.75 3a1 1 0 011 1v1.08a7.97 7.97 0 012.5 0V4a1 1 0 112 0v1.08a8.001 8.001 0 012.17.9l.77-.77a1 1 0 011.42 1.42l-.77.77a8.001 8.001 0 01.9 2.17H20a1 1 0 110 2h-1.08a7.97 7.97 0 010 2.5H20a1 1 0 110 2h-1.08a8.001 8.001 0 01-.9 2.17l.77.77a1 1 0 11-1.42 1.42l-.77-.77a8.001 8.001 0 01-2.17.9V20a1 1 0 11-2 0v-1.08a7.97 7.97 0 01-2.5 0V20a1 1 0 11-2 0v-1.08a8.001 8.001 0 01-2.17-.9l-.77.77a1 1 0 11-1.42-1.42l.77-.77a8.001 8.001 0 01-.9-2.17H4a1 1 0 110-2h1.08a7.97 7.97 0 010-2.5H4a1 1 0 110-2h1.08a8.001 8.001 0 01.9-2.17l-.77-.77a1 1 0 111.42-1.42l.77.77a8.001 8.001 0 012.17-.9V4a1 1 0 011-1zm2.25 6a3 3 0 100 6 3 3 0 000-6z" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-800">Pengerjaan</h3>
-            </div>
-
-
-            <!-- Card 5 -->
-            <div class="bg-white shadow-md border border-blue-600 rounded-xl p-6 text-center hover:shadow-lg transition">
-                <div class="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        class="h-12 w-12 text-green-600" fill="none" 
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" 
-                            d="M16.862 4.487a9.354 9.354 0 0 1 2.65 1.607 9.373 9.373 0 0 1 1.607 2.65 9.389 9.389 0 0 1-10.607 12.87 9.373 9.373 0 0 1-2.65-1.607 9.354 9.354 0 0 1-1.607-2.65 9.389 9.389 0 0 1 10.607-12.87zM12 8.25v7.5m3.75-3.75h-7.5"/>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-800">Pemasangan</h3>
-            </div>
-
+            @endforeach
         </div>
     </div>
+
+    <!-- Script animasi scroll -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const items = document.querySelectorAll(".animate-fadeInUp");
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, { threshold: 0.2 });
+
+        items.forEach(item => observer.observe(item));
+    });
+    </script>
 </section>
 
+
 <!-- Highlight Proyek Section -->
-<section class="max-w-7xl w-full min-h-[22rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 bg-white overflow-hidden">
-  <div class="max-w-6xl mx-auto px-4 ">
-    <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-8">Highlight Proyek</h2>
+<section class="max-w-7xl w-full min-h-[22rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col items-center justify-center px-4 md:px-16 mx-auto mt-8 py-10 bg-white overflow-hidden">
+  <div class="w-full">
+    <!-- Judul -->
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-6 md:mb-8">
+      Highlight Proyek
+    </h2>
 
-    <!-- Swiper Container -->
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        @php
-          $chunks = $portfolios->chunk(3); // Membagi portfolio menjadi 3 per slide
-        @endphp
-
-        @foreach ($chunks as $chunk)
-          <div class="swiper-slide">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              @foreach ($chunk as $portfolio)
-                <div class="bg-white border rounded-xl shadow-md overflow-hidden">
-                  <img src="{{ asset('storage/' . $portfolio->thumbnail) }}" 
-                       alt="{{ $portfolio->judul }}" 
-                       class="w-full h-56 object-cover">
-                  <div class="p-4">
-                    <h3 class="text-lg font-semibold text-gray-800">{{ $portfolio->judul }}</h3>
-                    @if($portfolio->deskripsi)
-                      <p class="text-sm text-gray-600 mt-1">{{ $portfolio->deskripsi }}</p>
-                    @endif
-                  </div>
-                </div>
-              @endforeach
-            </div>
+    <!-- Grid Card -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      @foreach ($portfolios->sortByDesc('created_at')->take(3) as $portfolio)
+        <div class="bg-white border rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+          <img src="{{ asset('storage/' . $portfolio->thumbnail) }}" 
+               alt="{{ $portfolio->judul }}" 
+               class="w-full h-52 sm:h-56 md:h-60 object-cover">
+          <div class="p-4">
+            <h3 class="text-base md:text-lg font-semibold text-gray-800 line-clamp-2">
+              {{ $portfolio->judul }}
+            </h3>
           </div>
-        @endforeach
-      </div>
-
-      <!-- Navigasi panah -->
-      <div class="swiper-button-next text-blue-600"></div>
-      <div class="swiper-button-prev text-blue-600"></div>
+        </div>
+      @endforeach
     </div>
 
     <!-- Tombol Lihat Lebih Banyak -->
-    <div class="mt-8 items-center text-center">
-      <a href="#" 
+    <div class="mt-8 text-center">
+      <a href="{{ route('portfolio') }}" 
          class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition">
         Lihat Lebih Banyak
       </a>
@@ -232,21 +343,24 @@
   </div>
 </section>
 
+
+
 <!-- Tagline Section -->
-<section class="py-20">
+<section id="tagline" class="py-20 bg-white overflow-hidden">
   <div class="max-w-4xl mx-auto text-center px-4">
+
     <!-- Judul Tagline -->
-    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6 animate-fadeInUp">
       “Ingin rumah atau tempat usaha Anda tampil modern dan terlindungi?”
     </h2>
     
     <!-- Subtext / Deskripsi -->
-    <p class="text-lg md:text-xl text-gray-600">
+    <p class="text-lg md:text-xl text-gray-600 animate-fadeInUp" style="animation-delay: 0.2s;">
       Hubungi Kami Sekarang
     </p>
     
     <!-- CTA Buttons -->
-    <div class="mt-8 flex justify-center gap-4">
+    <div class="mt-8 flex justify-center gap-4 animate-fadeInUp" style="animation-delay: 0.4s;">
         <!-- WhatsApp Button -->
         <a href="https://wa.me/6281220209566" target="_blank" 
         class="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition">
@@ -269,9 +383,44 @@
             Instagram
         </a>
     </div>
-
   </div>
+
 </section>
 
+  <!-- CSS Animasi -->
+  <style>
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fadeInUp {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .animate-fadeInUp.visible {
+      opacity: 1;
+      transform: translateY(0);
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+  </style>
+
+  <!-- Script untuk trigger animasi ketika discroll -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const items = document.querySelectorAll("#tagline .animate-fadeInUp");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    items.forEach(item => observer.observe(item));
+  });
+  </script>
 
 @endsection

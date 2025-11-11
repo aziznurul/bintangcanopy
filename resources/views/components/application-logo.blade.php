@@ -7,4 +7,3 @@
         Bintang Canopy
     </span>
 </div>
-

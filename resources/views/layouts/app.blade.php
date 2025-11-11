@@ -29,16 +29,16 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans relative">
-        <div class="min-h-screen dark:bg-gray-900">
+    <body class="font-sans relative bg-white">
+        <div class="min-h-screen">
             @include('layouts.navbar')
-
+    
             <main class="pt-24">
                 @yield('content')
             </main>
-
-            
+    
             @include('layouts.footer')
         </div>
     </body>
+
 </html>
