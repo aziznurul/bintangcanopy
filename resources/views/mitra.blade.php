@@ -4,7 +4,7 @@
 
 <!-- Section: Deskripsi Cabang & Mitra -->
 
-<section id="mitra-deskripsi" class="max-w-7xl mx-auto px-6 md:px-16 py-10 bg-white border border-blue-600 rounded-[5px] shadow-sm mt-8">
+<section id="mitra-deskripsi" class="bg-gradient-to-t from-blue-100 to-slate-50 max-w-7xl mx-auto px-6 md:px-16 py-10 bg-white border border-blue-600 rounded-[5px] shadow-sm mt-8">
     <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-6">Tentang Cabang & Mitra</h2>
     <p class="text-gray-700 text-lg">
         {{ $cabangInfo->deskripsi ?? 'Belum ada deskripsi tersedia.' }}

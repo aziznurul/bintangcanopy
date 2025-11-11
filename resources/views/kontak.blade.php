@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section id="kontak" class="max-w-7xl mx-auto px-6 md:px-16 py-12 bg-white border border-blue-600 rounded-[5px] shadow-sm">
+<section id="kontak" class="bg-gradient-to-t from-blue-100 to-slate-50 max-w-7xl mx-auto px-6 md:px-16 py-12  border border-blue-600 rounded-[5px] shadow-sm">
     <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-8">Kontak Kami</h2>
 
 @if(session('success'))

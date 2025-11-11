@@ -1,4 +1,5 @@
-<header class="bg-white shadow fixed w-full z-50">
+<header class="bg-white shadow fixed w-full z-40 top-[48px] transition-all duration-300">
+
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <!-- Logo -->
         <div class="flex items-center space-x-4">
@@ -25,11 +26,11 @@
         </nav>
 
         <!-- Tombol Login di kanan (desktop) -->
-        <div class="hidden md:flex">
+        <!--<div class="hidden md:flex">
             <a href="{{ route('login') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Login
             </a>
-        </div>
+        </div>-->
     </div>
 
     <!-- Menu mobile -->

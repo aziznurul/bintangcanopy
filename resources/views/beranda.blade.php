@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Hero Section -->
-<section id="hero" class="max-w-7xl w-full min-h-[33rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-center justify-between px-4 md:px-16 py-10 mx-auto bg-white overflow-hidden">
+<section id="hero" class="bg-gradient-to-t from-blue-100 to-slate-50 max-w-7xl w-full min-h-[33rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-center justify-between px-4 md:px-16 py-10 mx-auto overflow-hidden">
     <!-- Kiri: Teks & CTA -->
     <div class="w-full md:w-1/2 flex flex-col justify-center items-start space-y-6 text-center md:text-left">
         <!-- Judul & Deskripsi -->
@@ -117,7 +117,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <!-- Section Tentang -->
-<section id="tentang" class="max-w-7xl w-full min-h-[28rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 bg-white overflow-hidden">
+<section id="tentang"
+  class="max-w-7xl w-full min-h-[28rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 overflow-hidden">
     <div class="flex flex-col lg:flex-row items-start justify-between gap-10 w-full">
         
         <!-- Kolom Kiri: Sejarah, Visi, Misi -->

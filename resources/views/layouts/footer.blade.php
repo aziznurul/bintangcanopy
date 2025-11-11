@@ -1,4 +1,4 @@
-<footer class="bg-gray-800 text-white mt-10 rounded-tl-[15px] rounded-tr-[15px]">
+<footer class="bg-gradient-to-b from-gray-800 to-slate-100 text-white mt-10 rounded-tl-[15px] rounded-tr-[15px]">
     <div class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Logo dan Hak Cipta -->
         <div>
@@ -15,11 +15,11 @@
             <!-- Menu horizontal -->
             <ul class="flex flex-wrap gap-4">
                 <li><a href="{{ url('/') }}" class="hover:text-blue-400">Beranda</a></li>
-                <li><a href="#about" class="hover:text-blue-400">Tentang Kami</a></li>
-                <li><a href="#services" class="hover:text-blue-400">Layanan</a></li>
-                <li><a href="#portfolio" class="hover:text-blue-400">Portfolio</a></li>
-                <li><a href="#partners" class="hover:text-blue-400">Cabang & Mitra</a></li>
-                <li><a href="#contact" class="hover:text-blue-400">Kontak</a></li>
+                <li><a href="{{ url('/tentang') }}" class="hover:text-blue-400">Tentang Kami</a></li>
+                <li><a href="{{ url('/layanan') }}" class="hover:text-blue-400">Layanan</a></li>
+                <li><a href="{{ url('/portfolio') }}" class="hover:text-blue-400">Portfolio</a></li>
+                <li><a href="{{ url('/mitra') }}" class="hover:text-blue-400">Cabang & Mitra</a></li>
+                <li><a href="{{ url('/kontak') }}" class="hover:text-blue-400">Kontak</a></li>
             </ul>
 
             <!-- Sosial Media -->

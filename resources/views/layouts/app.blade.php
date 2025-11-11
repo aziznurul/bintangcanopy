@@ -25,20 +25,63 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans relative bg-white">
         <div class="min-h-screen">
+            @include('layouts.topbar')
             @include('layouts.navbar')
     
-            <main class="pt-24">
+            <main class="pt-40">
                 @yield('content')
             </main>
     
             @include('layouts.footer')
         </div>
+        <script>
+            let lastScrollTop = 0;
+            const topbar = document.getElementById('topbar');
+            const navbar = document.querySelector('header');
+
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                const isDesktop = window.innerWidth >= 768; // md breakpoint
+
+                if (isDesktop) {
+                    // Scroll down → sembunyikan topbar
+                    if (scrollTop > lastScrollTop) {
+                        topbar.style.transform = "translateY(-100%)";
+                        navbar.style.top = "0px";
+                    } 
+                    // Scroll up → tampilkan topbar lagi
+                    else {
+                        topbar.style.transform = "translateY(0)";
+                        navbar.style.top = "48px"; // tinggi topbar
+                    }
+                } else {
+                    // Mobile → topbar tidak ada, navbar selalu di top 0
+                    navbar.style.top = "0";
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // prevent negative scroll
+            });
+
+            // Optional: update topbar/navbar saat resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth < 768) {
+                    navbar.style.top = "0";
+                    topbar.style.transform = "translateY(-100%)"; // sembunyikan topbar di mobile
+                } else {
+                    navbar.style.top = "48px"; // desktop default
+                    topbar.style.transform = "translateY(0)";
+                }
+            });
+        </script>
+
+
     </body>
 
 </html>

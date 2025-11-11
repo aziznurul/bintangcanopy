@@ -5,7 +5,7 @@
 
 
 <!-- Section: Layanan -->
-<section id="layanan" class="max-w-7xl w-full min-h-[18rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 bg-white overflow-hidden">
+<section id="layanan" class="bg-gradient-to-t from-blue-100 to-slate-50 max-w-7xl w-full min-h-[18rem] shadow-sm border border-blue-600 rounded-[5px] flex flex-col md:flex-row items-stretch justify-center px-6 md:px-16 mx-auto mt-8 py-10 overflow-hidden">
     <div class="w-full mx-auto px-6">
         <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-8">Layanan Kami</h2>
         <p class="text-lg leading-relaxed text-gray-700" style="font-family: 'Poppins', sans-serif;">

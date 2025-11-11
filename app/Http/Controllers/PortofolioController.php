@@ -63,10 +63,16 @@ class PortofolioController extends Controller
 
     }
 
-
     public function show($id)
     {
         $portfolio = Portfolio::with('photos')->findOrFail($id);
-        return view('portfolio-show', compact('portfolio'));
+
+        // Ambil portfolio lainnya (misal 8 item terbaru selain yang sedang dilihat)
+        $relatedPortfolios = Portfolio::where('id', '!=', $portfolio->id)
+                                    ->latest()
+                                    ->take(8)
+                                    ->get();
+
+        return view('portfolio-show', compact('portfolio', 'relatedPortfolios'));
     }
 }
