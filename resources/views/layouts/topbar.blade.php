@@ -33,16 +33,37 @@
         </div>
 
 
-        <!-- Center: Search Bar -->
-        <form action="{{ route('search') }}" method="GET" class="w-full md:w-1/2 flex items-center">
-            <input type="text" name="q" placeholder="Search..." 
-                class="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                value="{{ request('q') }}">
-            <button type="submit" 
-                class="px-4 py-2 bg-blue-600 text-white rounded-r-full hover:bg-blue-700 text-sm font-medium">
-                Search
-            </button>
-        </form>
+        <!-- Center: Informasi Email & Jadwal Live -->
+        <div class="w-full md:w-1/2 flex flex-col md:flex-row items-center justify-center gap-2 text-sm text-gray-700 font-medium">
+
+            <!-- Email -->
+            <div class="flex items-center gap-1">
+                <span class="font-semibold">Email:</span>
+                <span>info@example.com</span>
+            </div>
+
+            <!-- Separator desktop -->
+            <span class="hidden md:inline">|</span>
+
+            @php
+                $now = \Carbon\Carbon::now('Asia/Jakarta');
+            @endphp
+
+            <!-- Tanggal Live -->
+            <div class="flex items-center gap-1">
+                <span class="font-semibold">Tanggal Live:</span>
+                <span>{{ $now->format('d M Y') }}</span>
+            </div>
+
+            <span class="hidden md:inline">|</span>
+
+            <!-- Jam Live Realtime -->
+            <div class="flex items-center gap-1">
+                <span class="font-semibold">Jam:</span>
+                <span id="live-time">{{ $now->format('H:i:s') }} WIB</span>
+            </div>
+
+        </div>
 
 
         <!-- Right: Login Button -->
@@ -56,3 +77,20 @@
     </div>
 </div>
 
+<script>
+function updateLiveTime() {
+    const now = new Date();
+
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+
+    document.getElementById('live-time').textContent = `${h}:${m}:${s} WIB`;
+}
+
+// Tampilkan langsung saat halaman dibuka
+updateLiveTime();
+
+// Update setiap detik
+setInterval(updateLiveTime, 1000);
+</script>
