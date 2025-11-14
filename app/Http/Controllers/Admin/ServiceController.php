@@ -10,44 +10,54 @@ use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
-    // Menampilkan halaman Services
+    // Menampilkan daftar layanan
     public function index()
     {
-        // Ambil ServiceInfo pertama, jika belum ada buat default
-        $info = ServiceInfo::first();
-        if (!$info) {
-            $info = ServiceInfo::create(['deskripsi' => '']);
-        }
-
-        // Ambil semua layanan
         $services = Service::latest()->get();
-
-        return view('admin.services.index', compact('info', 'services'));
+        $info = ServiceInfo::first(); // jika mau menampilkan deskripsi umum
+        return view('admin.services.index', compact('services', 'info'));
     }
-
-    // Update deskripsi umum layanan (ServiceInfo)
+    
+    // Tambah atau update deskripsi umum layanan
     public function updateInfo(Request $request)
     {
         $request->validate([
-            'deskripsi' => 'required',
+            'deskripsi' => 'required|string',
         ]);
 
         $info = ServiceInfo::first();
-        if (!$info) {
-            // Jika belum ada, buat record baru
-            $info = ServiceInfo::create([
-                'deskripsi' => $request->deskripsi,
+
+        if ($info) {
+            // update
+            $info->update([
+                'deskripsi' => $request->deskripsi
             ]);
         } else {
-            $info->update([
-                'deskripsi' => $request->deskripsi,
+            // buat baru
+            ServiceInfo::create([
+                'deskripsi' => $request->deskripsi
             ]);
         }
 
         return back()->with('success', 'Deskripsi layanan berhasil diperbarui.');
     }
 
-    // Tambah layanan baru (Service)
+    // Jika ingin hapus deskripsi umum (opsional)
+    public function destroyInfo($id)
+    {
+        $info = ServiceInfo::findOrFail($id);
+        $info->delete();
+
+        return back()->with('success', 'Deskripsi layanan berhasil dihapus.');
+    }
+
+    // Halaman tambah layanan baru
+    public function create()
+    {
+        return view('admin.services.create');
+    }
+
+    // Simpan layanan baru
     public function store(Request $request)
     {
         $request->validate([
@@ -57,31 +67,70 @@ class ServiceController extends Controller
             'foto' => 'nullable|image|max:2048',
         ]);
 
-        // Simpan file foto jika ada
         $foto = $request->file('foto')?->store('services', 'public');
 
         Service::create([
-            'foto' => $foto,
             'kategori' => $request->kategori,
             'judul_material' => $request->judul_material,
             'deskripsi' => $request->deskripsi,
+            'foto' => $foto,
         ]);
 
-        return back()->with('success', 'Layanan berhasil ditambahkan.');
+        return redirect()->route('admin.services.index')
+                         ->with('success', 'Layanan berhasil ditambahkan.');
     }
 
-    // Hapus layanan (Service)
+    // Halaman edit layanan
+    public function edit($id)
+    {
+        $service = Service::findOrFail($id);
+        return view('admin.services.edit', compact('service'));
+    }
+
+    // Update layanan
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'kategori' => 'required|string|max:255',
+            'judul_material' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'foto' => 'nullable|image|max:2048',
+        ]);
+
+        $service = Service::findOrFail($id);
+
+        if ($request->hasFile('foto')) {
+            if ($service->foto && Storage::disk('public')->exists($service->foto)) {
+                Storage::disk('public')->delete($service->foto);
+            }
+            $foto = $request->file('foto')->store('services', 'public');
+        } else {
+            $foto = $service->foto;
+        }
+
+        $service->update([
+            'kategori' => $request->kategori,
+            'judul_material' => $request->judul_material,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $foto,
+        ]);
+
+        return redirect()->route('admin.services.index')
+                         ->with('success', 'Layanan berhasil diperbarui.');
+    }
+
+    // Hapus layanan
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
 
-        // Hapus file foto jika ada
         if ($service->foto && Storage::disk('public')->exists($service->foto)) {
             Storage::disk('public')->delete($service->foto);
         }
 
         $service->delete();
 
-        return back()->with('success', 'Layanan berhasil dihapus.');
+        return redirect()->route('admin.services.index')
+                         ->with('success', 'Layanan berhasil dihapus.');
     }
 }

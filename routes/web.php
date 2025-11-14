@@ -59,25 +59,47 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/organization/{id}', [OrganizationStructureController::class, 'destroy'])->name('organization.destroy');
 });
 
+
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    // Halaman utama Services (menampilkan ServiceInfo + daftar Service)
+    // Daftar layanan
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 
-    // Update deskripsi umum layanan (ServiceInfo)
+    // CRUD ServiceInfo
     Route::post('/services/update-info', [ServiceController::class, 'updateInfo'])->name('services.updateInfo');
+    Route::delete('/services/info/{id}', [ServiceController::class, 'destroyInfo'])->name('services.info.destroy');
 
-    // Tambah layanan baru (Service)
-    Route::post('/services/store', [ServiceController::class, 'store'])->name('services.store');
+    // Tambah layanan
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
 
-    // Hapus layanan (Service)
+    // Edit layanan
+    Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+    Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+
+    // Hapus layanan
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 });
 
+
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+
+    // Halaman utama portfolio
     Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
+
+    // Update deskripsi umum portfolio
     Route::post('/portfolio/update-info', [PortfolioController::class, 'updateInfo'])->name('portfolio.updateInfo');
+
+    // Form create & store
+    Route::get('/portfolio/create', [PortfolioController::class, 'create'])->name('portfolio.create');
     Route::post('/portfolio/store', [PortfolioController::class, 'store'])->name('portfolio.store');
+
+    // Edit & update
+    Route::get('/portfolio/{id}/edit', [PortfolioController::class, 'edit'])->name('portfolio.edit');
+    Route::put('/portfolio/{id}', [PortfolioController::class, 'update'])->name('portfolio.update');
+
+    // Hapus portfolio
     Route::delete('/portfolio/{id}', [PortfolioController::class, 'destroy'])->name('portfolio.destroy');
+
 });
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
