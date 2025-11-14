@@ -22,7 +22,9 @@ use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\TaglineController;
 use App\Http\Controllers\Admin\LogoController;
 use App\Http\Controllers\Admin\SocialMediaController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
@@ -33,6 +35,7 @@ Route::get('/portfolio/more', [PortfolioController::class, 'loadMore'])->name('p
 Route::get('/mitra', [MitraCabangController::class, 'index'])->name('mitra');
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::post('/kontak', [KontakController::class, 'store'])->name('kontak.store');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 
 

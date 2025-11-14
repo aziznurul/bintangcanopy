@@ -34,14 +34,16 @@
 
 
         <!-- Center: Search Bar -->
-        <form action="#" method="GET" class="w-full md:w-1/2 flex items-center">
+        <form action="{{ route('search') }}" method="GET" class="w-full md:w-1/2 flex items-center">
             <input type="text" name="q" placeholder="Search..." 
-                class="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                class="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                value="{{ request('q') }}">
             <button type="submit" 
                 class="px-4 py-2 bg-blue-600 text-white rounded-r-full hover:bg-blue-700 text-sm font-medium">
                 Search
             </button>
         </form>
+
 
         <!-- Right: Login Button -->
         <div class="hidden md:flex">
