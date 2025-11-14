@@ -16,8 +16,6 @@ class PortfolioController extends Controller
     {
         $info = PortfolioInfo::first() ?? PortfolioInfo::create(['deskripsi' => '']);
         $portfolios = Portfolio::with('photos')->latest()->get();
-
-        // Ambil kategori unik dari Service
         $categories = Service::select('kategori')->distinct()->pluck('kategori');
 
         return view('admin.portfolio.index', compact('info', 'portfolios', 'categories'));
@@ -27,11 +25,17 @@ class PortfolioController extends Controller
     public function updateInfo(Request $request)
     {
         $request->validate(['deskripsi' => 'required']);
-
         $info = PortfolioInfo::first() ?? PortfolioInfo::create(['deskripsi' => '']);
         $info->update(['deskripsi' => $request->deskripsi]);
 
         return back()->with('success', 'Deskripsi portfolio berhasil diperbarui.');
+    }
+
+    // Menampilkan form tambah portfolio
+    public function create()
+    {
+        $categories = Service::select('kategori')->distinct()->pluck('kategori');
+        return view('admin.portfolio.create', compact('categories'));
     }
 
     // Tambah portfolio baru
@@ -48,7 +52,6 @@ class PortfolioController extends Controller
             'foto.*' => 'nullable|image|max:5120',
         ]);
 
-        // Upload thumbnail
         $thumbnail = $request->file('thumbnail')?->store('portfolio', 'public');
 
         $portfolio = Portfolio::create([
@@ -61,7 +64,6 @@ class PortfolioController extends Controller
             'thumbnail' => $thumbnail,
         ]);
 
-        // Upload foto tambahan
         if ($request->hasFile('foto')) {
             foreach ($request->file('foto') as $f) {
                 $path = $f->store('portfolio', 'public');
@@ -69,7 +71,7 @@ class PortfolioController extends Controller
             }
         }
 
-        return back()->with('success', 'Portfolio berhasil ditambahkan.');
+        return redirect()->route('admin.portfolio.index')->with('success', 'Portfolio berhasil ditambahkan.');
     }
 
     // Menampilkan halaman edit portfolio
@@ -96,7 +98,6 @@ class PortfolioController extends Controller
 
         $portfolio = Portfolio::with('photos')->findOrFail($id);
 
-        // Update thumbnail
         if ($request->hasFile('thumbnail')) {
             if ($portfolio->thumbnail && Storage::disk('public')->exists($portfolio->thumbnail)) {
                 Storage::disk('public')->delete($portfolio->thumbnail);
@@ -116,7 +117,6 @@ class PortfolioController extends Controller
             'thumbnail' => $thumbnail,
         ]);
 
-        // Upload foto tambahan
         if ($request->hasFile('foto')) {
             foreach ($request->file('foto') as $f) {
                 $path = $f->store('portfolio', 'public');
