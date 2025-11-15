@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <!-- CTA Buttons -->
     <div class="mt-8 flex justify-center gap-4 animate-fadeInUp" style="animation-delay: 0.4s;">
         <!-- WhatsApp Button -->
-        <a href="https://wa.me/{{ $social->whatsapp }}" target="_blank" 
+        <a href="https://wa.me/{{ $socialMedia?->whatsapp ?? '' }}" target="_blank" 
         class="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition">
             <!-- Icon WhatsApp -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
