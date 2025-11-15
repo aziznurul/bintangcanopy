@@ -39,7 +39,7 @@
             <!-- Email -->
             <div class="flex items-center gap-1">
                 <span class="font-semibold">Email:</span>
-                <span>info@example.com</span>
+                <span>bintangcanopyofficial@gmail.com</span>
             </div>
 
             <!-- Separator desktop -->

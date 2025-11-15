@@ -51,5 +51,62 @@
 
 </section>
 
+<!-- Section: Video Dokumentasi Proyek -->
+<section id="video-dokumentasi" class="max-w-7xl w-full mx-auto mt-12 px-6 md:px-16 py-10 bg-white border border-blue-600 rounded-[10px] shadow-md">
+    <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-green-600 pl-3 mb-8">
+        Video Dokumentasi Proyek
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Kiri: Video Terbaru -->
+        <div class="md:col-span-2">
+            @if($latestVideo)
+                <div class="aspect-[16/9] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                    <iframe 
+                        src="https://www.youtube.com/embed/{{ $latestVideo['id']['videoId'] ?? '' }}" 
+                        frameborder="0" 
+                        allowfullscreen
+                        class="w-full h-full rounded-xl">
+                    </iframe>
+                </div>
+                <h3 class="text-xl font-semibold mt-3 text-gray-800 leading-tight">
+                    {{ $latestVideo['snippet']['title'] ?? 'Video tanpa judul' }}
+                </h3>
+                <p class="text-sm text-gray-500 mt-1">
+                    {{ \Carbon\Carbon::parse($latestVideo['snippet']['publishedAt'])->translatedFormat('d F Y') }}
+                </p>
+            @else
+                <p class="text-gray-500">Belum ada video terbaru.</p>
+            @endif
+        </div>
+
+        <!-- Kanan: Video Sebelumnya -->
+        <div class="flex flex-col gap-6">
+            @if(!empty($otherVideos))
+                @foreach($otherVideos as $video)
+                    <div class="group">
+                        <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                            <iframe 
+                                src="https://www.youtube.com/embed/{{ $video['id']['videoId'] ?? '' }}" 
+                                frameborder="0" 
+                                allowfullscreen
+                                class="w-full h-full rounded-lg">
+                            </iframe>
+                        </div>
+                        <h4 class="text-base font-semibold mt-2 text-gray-800 group-hover:text-blue-600 transition">
+                            {{ $video['snippet']['title'] ?? 'Video tanpa judul' }}
+                        </h4>
+                        <p class="text-sm text-gray-500">
+                            {{ \Carbon\Carbon::parse($video['snippet']['publishedAt'])->translatedFormat('d F Y') }}
+                        </p>
+                    </div>
+                @endforeach
+            @else
+                <p class="text-gray-500">Belum ada video sebelumnya.</p>
+            @endif
+        </div>
+    </div>
+</section>
+
 
 @endsection

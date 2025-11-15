@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Kolom Kanan: Logo -->
         <div class="lg:w-1/3 flex flex-col items-center space-y-4">
             <!-- Logo -->
-            <img src="{{ asset('asset/images/BC.png') }}" alt="Logo SINERGANTARA"
+            <img src="{{ asset('asset/images/BC.png') }}" alt="Logo BC"
                 class="w-64 lg:w-72 object-contain opacity-0 tentang-logo">
 
             <!-- Tombol -->
@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <!-- CTA Buttons -->
     <div class="mt-8 flex justify-center gap-4 animate-fadeInUp" style="animation-delay: 0.4s;">
         <!-- WhatsApp Button -->
-        <a href="https://wa.me/6281220209566" target="_blank" 
+        <a href="https://wa.me/{{ $social->whatsapp }}" target="_blank" 
         class="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition">
             <!-- Icon WhatsApp -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
