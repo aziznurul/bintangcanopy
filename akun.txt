@@ -1,0 +1,5 @@
+Manage My Databases
+Manage User Privileges
+User: bink3233_bintangcanopy
+
+Database: bink3233_bintangcanopy
